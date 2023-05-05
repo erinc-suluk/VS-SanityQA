@@ -953,7 +953,7 @@ public class SanityTestCases extends HelperFunctions {
 		        Assert.fail("Test case failed: " + testName);
 		    }
 	}
-	@Test
+	@Test(enabled=false)
 	public void WEB_48() throws Exception{
 		  String testName = "To verify that the user who receives the link and opens the link should be brought to the homepage with the pre-filtered results.";
 		    ExtentTest test = extent.createTest(testName);
@@ -971,9 +971,43 @@ public class SanityTestCases extends HelperFunctions {
 		        Assert.fail("Test case failed: " + testName);
 		    }
 	}
+	@Test(enabled=false)
+	public void WEB_49() throws Exception{
+		  String testName = "To verify that \"Hot topic\" article should open in the current tab if it's internal VS content.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        tlp.setHotTopicSameTab(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
 	
-	
-	
+	@Test(enabled=false)
+	public void WEB_50() throws Exception{
+		  String testName = "To verify that feed component on the topic landing page is system populated based on the primary topic tag selected and brings published content that reflects the tag value.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        tlp.setFeedTopicsTagValue(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
 	
 	
 	

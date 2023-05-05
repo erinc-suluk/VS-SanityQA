@@ -96,6 +96,9 @@ public class TopicLandingPage extends HelperFunctions {
 	@FindBy(xpath="//div[@class='vs-title-area__back-link']//button")
 	private WebElement backToTopic;
 	
+	@FindBy(xpath="//div[@class='vs-title-area__card-box-heading-link tag-pills']//a")
+	private WebElement dataTag;
+	
 	@FindBy(xpath="//div[@class='vs-topic-feed__heading-favorite-wrapper']//a")
 	private static List<WebElement> feedTopics;
 	
@@ -345,10 +348,13 @@ public class TopicLandingPage extends HelperFunctions {
 	    }
 	    HelperFunctions.waitForPageToLoad(3);
 	    HelperFunctions.staticWait(3);
+	    test.info("Wait for topic page title's visibility");
 	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
 	    wait1.until(ExpectedConditions.visibilityOf(topicPageTitle));
 	    Assert.assertTrue(topicPageTitle.isDisplayed());
+	    test.info("Verified topic page title's is displayed");
 	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on content page");
 	    for (WebElement element : feedTopics) {
             if (element.getText().toLowerCase().contains("content")) {
             	   ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
@@ -357,13 +363,117 @@ public class TopicLandingPage extends HelperFunctions {
                 break;
             }
         }
+	    test.info("Wait for page to load");
 	    HelperFunctions.waitForPageToLoad(3);
 	    HelperFunctions.staticWait(3);
+	    test.info("Wait for back to topic breadcrumb's visibility");
 	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
 	    wait2.until(ExpectedConditions.visibilityOf(backToTopic));
 	    Assert.assertTrue(backToTopic.isDisplayed());
+	    test.info("Verified back to topic is displayed");
 	    HelperFunctions.staticWait(2);
 	    
+	}
+	public void setHotTopicSameTab(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 9));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(topicPageTitle));
+	    Assert.assertTrue(topicPageTitle.isDisplayed());
+	    test.info("Verified topic page title is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on hot topic");
+	    hotTopicsTitles.get(0).click();
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for topic content title's visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(topicContentTitle));
+	    Assert.assertTrue(topicContentTitle.isDisplayed());
+	    test.info("Verified topic content title's is displayed");
+	    HelperFunctions.staticWait(2);
+	   
+	}
+	public void setFeedTopicsTagValue(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 9));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for topic page title's visibility");
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(topicPageTitle));
+	    Assert.assertTrue(topicPageTitle.isDisplayed());
+	    test.info("Verified topic page title's is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on content page");
+	    for (WebElement element : feedTopics) {
+            if (element.getText().toLowerCase().contains("content")) {
+            	   ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+            	   JavascriptExecutor executor = (JavascriptExecutor) Driver.getDriver();
+                   executor.executeScript("arguments[0].click();", element);
+                break;
+            }
+        }
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for back to topic breadcrumb's visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(backToTopic));
+	    Assert.assertTrue(backToTopic.isDisplayed());
+	    test.info("Verified back to topic is displayed");
+	    HelperFunctions.staticWait(2);
+	    String datatag = dataTag.getAttribute("data-tag");
+        if (datatag != null && !datatag.isEmpty()) {
+        	   Assert.assertTrue(true);
+            System.out.println("The data-tag attribute is not null or empty.");
+        } else {
+        	 Assert.assertTrue(false);
+            System.out.println("The data-tag attribute is null or empty.");
+        }
+        test.info("Verified data-tag attribute is not null or empty.");
 	}
 
 }
