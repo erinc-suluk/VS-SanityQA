@@ -33,6 +33,7 @@ import Pages.ContentPage;
 import Pages.GhostedPage;
 import Pages.HomePage;
 import Pages.LoginPageObjects;
+import Pages.TopicLandingPage;
 
 
 
@@ -48,6 +49,7 @@ public class SanityTestCases extends HelperFunctions {
 	ContentPage cp=new ContentPage();
 	GhostedPage gp=new GhostedPage();
 	AuthoringPage ap=new AuthoringPage();
+	TopicLandingPage tlp=new TopicLandingPage();
 	screenshotUtil ssu=new screenshotUtil();
 	private ExtentTest test;
 	
@@ -839,6 +841,166 @@ public class SanityTestCases extends HelperFunctions {
 		        Assert.fail("Test case failed: " + testName);
 		    }
 	}
+	
+	@Test(enabled=false)
+	public void WEB_42() throws Exception{
+		  String testName = "To verify that the Key asset bar is an optional component that is manually authored by the author if relevant assets are available for the topic";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        tlp.setKeyAssetBar(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
+	
+	@Test(enabled=false)
+	public void WEB_43() throws Exception{
+		  String testName = "To verify that the Hot topics component is a manually authored section.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        tlp.setHotTopics(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
+	
+	@Test(enabled=false)
+	public void WEB_44() throws Exception{
+		  String testName = "To verify that Key asset bar displays up to 4 assets that are pointing to the URLs.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        tlp.setKeyAssetBar4articles(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
+	
+	@Test(enabled=false)
+	public void WEB_45() throws Exception{
+		  String testName = "To verify that Hot topics component displays up to 4 articles that are configured by the author.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        tlp.setHotTopics4articles(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
+	@Test(enabled=false)
+	public void WEB_46() throws Exception{
+		  String testName = "To verify that the \"Back to topic page\" button should be presented on the content page if a user opened a page from a topic landing page.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        tlp.setBacktoTopicandTopicsSize(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
+	@Test(enabled=false)
+	public void WEB_47() throws Exception{
+		  String testName = "To verify that the user can click on the feed article title or description to open the article";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        tlp.setFeedTopics(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
+	@Test
+	public void WEB_48() throws Exception{
+		  String testName = "To verify that the user who receives the link and opens the link should be brought to the homepage with the pre-filtered results.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        hp.setSharetheURLwithFilter(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	

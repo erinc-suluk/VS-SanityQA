@@ -180,7 +180,8 @@ public class HomePage extends HelperFunctions {
 	@FindBy(xpath="//ul[@class='vs-header__search-key-suggestion']//li")
 	private static List<WebElement> trendingSuggestions;
 	
-	
+	@FindBy(xpath="//div[@class='vs-filter__selected vs-filter__desktop-selected']//button[normalize-space()='Deals']")
+	private WebElement dealsSearch;
 	
 	
 	ReadXLSdata read1=new ReadXLSdata();
@@ -1459,6 +1460,91 @@ public class HomePage extends HelperFunctions {
 	    test.info("Verified element opened the same tab");
 	    HelperFunctions.staticWait(3);
 	    
+	}
+	public void setSharetheURLwithFilter(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    Assert.assertTrue(firstAssetHomepage.isDisplayed());
+	    test.info("Verified the first asset is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on it");
+	    selectTopic.click();
+        HelperFunctions.staticWait(2);
+        test.info("Wait for deals checkbox visibility and clicked on it");
+        WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(dealsCheckbox));
+	    JavascriptExecutor js2 = (JavascriptExecutor) Driver.getDriver();
+	    js2.executeScript("arguments[0].click();", dealsCheckbox);
+	   // dealsCheckbox.click();
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on select topic");
+	    selectTopic.click();
+	    //firstAssetHomepage.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Getting the current url and copy-paste it");
+	    String url = Driver.getDriver().getCurrentUrl();
+        StringSelection selection = new StringSelection(url);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, null);
+        Driver.getDriver().findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "t");
+        Driver.getDriver().switchTo().defaultContent();
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        HelperFunctions.staticWait(5);
+        String newUrl = Driver.getDriver().getCurrentUrl();
+        if (url.equals(newUrl)) {
+        	Assert.assertTrue(true);
+            System.out.println("Copy-paste successful!");
+        } else {
+        	Assert.assertTrue(false);
+            System.out.println("Copy-paste failed!");
+        }
+        test.info("Verified Copy-paste action was successful");
+        HelperFunctions.staticWait(3);
+        WebDriverWait wait4 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait4.until(ExpectedConditions.visibilityOf(dealsSearch));
+        Assert.assertTrue(dealsSearch.isDisplayed());
+	    HelperFunctions.staticWait(2);
 	}
 	
 	
