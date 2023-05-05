@@ -1,701 +1,1465 @@
 package Pages;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
-import org.apache.poi.sl.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import com.aventstack.extentreports.ExtentTest;
 import com.pwc.productcentral.Driver;
 import com.pwc.productcentral.HelperFunctions;
 import com.pwc.productcentral.ReadXLSdata;
+
 
 public class HomePage extends HelperFunctions {
 	public HomePage() {
 		PageFactory.initElements(Driver.getDriver(), this);
 		}
-	@FindBy(xpath="//img[@class='cmp-hero__image']")
-	private WebElement promotionBannerImage;
+	@FindBy(xpath="//coral-icon[@icon='properties']")
+	private WebElement pageInfo;
 	
-	@FindBy(xpath="//div[@class='cmp-hero__description']")
-	private WebElement descriptionOfPromotionBanner;
+	@FindBy(xpath="//button[@title='Open Properties']")
+	private WebElement openPro;
 	
-	@FindBy(xpath="//div[@class='cmp-hero']")
-	private WebElement promotionBanner;
+	@FindBy(xpath="//coral-button-label[normalize-space()='Publish Page']")
+	private WebElement publishPage;
 	
-	@FindBy(xpath="//div[@class='cmp-leftnavigation__items']")
-	private static List<WebElement> leftNavigationItems2;
+	@FindBy(xpath="//coral-button-label[normalize-space()='View as Published']")
+	private WebElement viewPublished;
 	
-	@FindBy(xpath="//div[@class='cmp-tiles__entries']//a")
-	private static List<WebElement> homePageTiles;
+	@FindBy(xpath="//a[@data-tag-id='Deals']")
+	private WebElement dealsTag;
 	
-	@FindBy(xpath="(//div[@class='cmp-tiles__entry-title'])[1]")
-	private WebElement legalTile;
+	@FindBy(xpath="//img[@alt='logo']")
+	private WebElement logo;
 	
-	@FindBy(xpath="//div[@class='cmp-product-list__search-bar-container']")
-	private WebElement landingPageComponentForLegalTile;
+	@FindBy(xpath="//figure[@class='vs-card__figure-wrapper']")
+	private static List<WebElement> tagPills;
 	
-	@FindBy(xpath="//div[@class='cmp-tiles__entry-title']")
-	private static List<WebElement> titleOfTiles;
+	@FindBy(xpath="//span[normalize-space()='Topic']")
+	private WebElement selectTopic;
 	
-	@FindBy(xpath="//h1[@class='cmp-title__text']")
-	private WebElement oneStopTitle;
+	@FindBy(xpath="(//label[@for='value-store:topic/deals'])[2]")
+	private WebElement dealsCheckbox;
 	
-	@FindBy(xpath="//div[@class='cmp-tiles__entry-desc']")
-	private static List<WebElement> descriptionOfTiles;
+	@FindBy(xpath="//a[contains(text(),'erinc-content')]")
+	private WebElement automationContentPage;
 	
-	@FindBy(xpath="//h1[@class='cmp-title__text']")
-	private WebElement title;
+	@FindBy(xpath="//li[@class='userprofile']")
+	private WebElement userIcon;
 	
-	@FindBy(xpath="//div[@class='text cmp-tiles__description']")
-	private WebElement descriptionOfTitle;
+	@FindBy(xpath="//div[@class='vs-filter__selected vs-filter__desktop-selected']//button[1]")
+	private WebElement selectedFilter;
 	
-	@FindBy(xpath="(//a[@href='/us/en/my-products.html'])[1]")
-	private WebElement logintoMyProduct;
+	@FindBy(xpath="//div[@class='vs-filter__selected vs-filter__desktop-selected']//button[@class='vs-filter__selected-pill vs-filter__selected-pill--transparent'][normalize-space()='Clear filters']")
+	private WebElement clearFilter;
 	
-	@FindBy(xpath="//div[@data-path='/content/pc/us/en/automation/homepage-demo/jcr:content/root/container/container/tiles/title']")
-	private WebElement titleforAuthor;
+	@FindBy(xpath="//h2[@class='vs-filter__title']")
+	private WebElement filterTitle;
 	
-	@FindBy(xpath="//button[@id='searchButtonHeader']")
+	@FindBy(xpath="//span[@class='vs-header__logo-title']")
+	private WebElement valueStore;
+	
+	@FindBy(xpath="//button[@class='vs-card__cta-load-more']")
+	private WebElement loadMore;
+	
+	@FindBy(xpath="//div[@class='vs-card__favorite-pill-wrapper']")
+	private static List<WebElement> assets;
+	
+	@FindBy(xpath="(//a[@class='vs-feature-card__figure-heading'])[1]")
+	private WebElement firstAssetHomepage;
+	
+	@FindBy(xpath="(//div[@class='vs-card__favorite-pill-wrapper'])[1]")
+	private WebElement firstAssetFilter;
+	
+	@FindBy(xpath="//link[@rel='shortcut icon']")
+	private WebElement faviconLink;
+	
+	@FindBy(xpath="//a[@class='vs-card__figure-heading']")
+	private static List<WebElement> articleTitles;
+	
+	@FindBy(xpath="(//a[@class='vs-card__figure-heading'])[1]")
+	private WebElement firstArticleTitle;
+	
+	@FindBy(xpath="(//p[@class='vs-card__figure-description'])[1]//a")
+	private WebElement firstArticleDescription;
+	
+	@FindBy(xpath="(//img[@class='vs-card__figure-img'])[1]")
+	private WebElement firstArticleImg;
+	
+	@FindBy(xpath="//h3[@class='vs-topic__heading']")
+	private WebElement moretoExplore;
+	
+	@FindBy(xpath="//span[@class='vs-topic__subheading']")
+	private WebElement moretoExploreSub;
+	
+	@FindBy(xpath="//div[@class='vs-topic__more-explorer-item']//a")
+	private static List<WebElement> exploreItemsLink;
+	
+	@FindBy(xpath="//div[@class='vs-topic__more-explorer-item']")
+	private static List<WebElement> exploreItems;
+	
+	@FindBy(xpath="//span[@class='vs-header__search-btn']")
 	private WebElement searchButton;
 	
-	@FindBy(xpath="//input[@id='globalSearchInput']")
-	private WebElement searchInput;
+	@FindBy(xpath="//input[@placeholder='Search the Value Store']")
+	private WebElement searchField;
 	
-	@FindBy(xpath="//div[@id='searchProductDropdown']")
-	private WebElement productDropdown;
+	@FindBy(xpath="//span[@class='vs-search__result-not-found-heading']")
+	private WebElement noSearchResult;
 	
-	@FindBy(xpath="//div[@class='ap-dropdown-list show']//div//label")
-	private static List<WebElement> productDropdownList;
+	@FindBy(xpath="//div[@class='vs-content__you-might-also-like-wrapper']//h2")
+	private WebElement alsoLikeTitle;
 	
-	@FindBy(xpath="//input[@id='change-navigator']")
-	private WebElement changeNavigatorCheckbox;
+	@FindBy(xpath="//div[@class='vs-card__box-heading_youmightalsolike']")
+	private static List<WebElement> alsoLikeLabels;
 	
-	@FindBy(xpath="//div[@id='docDropdown']")
-	private WebElement catDropdown;
+	@FindBy(xpath="//div[@class='vs-card__youmightalsolike-box-content']")
+	private static List<WebElement> alsoLikeTitles;
 	
-	@FindBy(xpath="//div[@id='searchSortingDropdown']")
-	private WebElement sortingDropdown;
+	@FindBy(xpath="//div[@class='vs-card__youmightalsolike-favorites']")
+	private static List<WebElement> alsoLikeFavIcon;
 	
-	@FindBy(xpath="//input[@id='data-processing-addendum']")
-	private WebElement dataAppCheckbox;
+	@FindBy(xpath="//div[@class='vs-card__youmightalsolike-highlight-item']")
+	private WebElement alsoLikeImage;
 	
-	@FindBy(xpath="//input[@id='documentation']")
-	private WebElement documentationCheckbox;
+	@FindBy(xpath="//a[@class='vs-header__quicklinks-img']//span")
+	private WebElement quickLinksIcon;
 	
-	@FindBy(xpath="(//div[@class='cmp-search-results__card-title'])[1]")
-	private WebElement dataAppTitle;
+	@FindBy(xpath="//div[@class='vs-header__td-menu-item-wrapper']")
+	private static List<WebElement> tdMenuItems;
 	
-	@FindBy(xpath="(//div[@class='cmp-search-results__card-title'])[2]")
-	private WebElement documentationTitle;
+	@FindBy(xpath="//div[@class='vs-header__wt-menu-item-wrapper']")
+	private static List<WebElement> wtMenuItems;
 	
-	@FindBy(xpath="//span[@class='sdk-HeaderFileInfoView-fileBreadCrumb sdk-HeaderFileInfoView-fileBreadCrumbNormal']")
-	private WebElement dataAppContent;
+	@FindBy(xpath="//span[@class='vs-header__desktop-close-icon']")
+	private WebElement closeQuickLinks;
 	
-	@FindBy(xpath="(//div[@class='ap-dropdown-option-item'])//input")
-	private static List<WebElement> catDropdownCheckboxes;
+	@FindBy(xpath="//li[@class='navigation vs-header__sub-menu']//span[@class='selected-value']")
+	private WebElement terriMenu;
 	
-	@FindBy(xpath="((//div[@class='cmp-search-results__page ap-page-container'])//div[3])[position()=1 or position()=2 or position()=3 or position()=4 or position()=5 or position()=6 or position()=7 or position()=8 or position()=9 or position()=10]")
-	private static List<WebElement> resultList;
+	@FindBy(xpath="//li[@class='navigation vs-header__sub-menu']//a[@title='MX_Title']")
+	private WebElement mexico;
 	
-	@FindBy(xpath="(//a[@href='/us/en/my-products.html'])[1]")
-	private WebElement loginToMyProductLink;
+	@FindBy(xpath="//li[@class='navigation vs-header__sub-menu']//a[@title='Global']")
+	private WebElement global;
 	
-	@FindBy(xpath="(//*[@id='searchProductDropdown']/div[2])//div")
-	private static List<WebElement> productDropdownItems;
+	@FindBy(xpath="//li[@class='navigation vs-header__sub-menu']//a[@title='US_Title']")
+	private WebElement US;
 	
-	@FindBy(xpath="//*[@id='docDropdown']/div[2]//div")
-	private static List<WebElement> catDropdownItems;
+	@FindBy(xpath="//li[@data-suggestedterm-keyword='Tax']")
+	private WebElement suggestedKeyword;
 	
-	@FindBy(xpath="(//div[@class='ap-dropdown-list show'])[2]//div//label")
-	private static List<WebElement> catDropdownList;
+	@FindBy(xpath="(//div[@class='vs-search__more-explorer-item'])[1]")
+	private WebElement searchItem;
 	
-	@FindBy(xpath="//div[@data-href='/content/pc/us/en/my-products/product-4.html']")
-	private WebElement loginLink;
+	@FindBy(xpath="(//div[@class='vs-search__explorer-image-wrapper'])[1]")
+	private WebElement searchItemIcon;
 	
-	@FindBy(xpath="//img[@id='PwCLogo']")
-	private WebElement pwcLogo;
+	@FindBy(xpath="//div[@class='trending-search']//span[@class='vs-header__search-analytics-heading']")
+	private WebElement trendingSearch;
 	
-	@FindBy(xpath="//input[@id='initEmail']")
-	private WebElement email;
-	
-	@FindBy(xpath="//button[.='Next']")
-	private WebElement next;
-	
-	@FindBy(xpath="//input[@class='ap-dropdown-option-checkbox']")
-	private static List<WebElement> productCheckbox;
-	
-	@FindBy(xpath="//div[@class='cmp-search-results__card-title']")
-	private static List<WebElement> resultsTitles;
-	
-	@FindBy(xpath="//div[@class='ap-dropdown-list show']")
-	private static List<WebElement> productDropdownList2;
-	
-	@FindBy(xpath="//div[@class='cmp-pdfviewer']")
-	private WebElement pdfViewer;
-	
-	@FindBy(xpath="//div[@class='cmp-tiles__products-link']")
-	private static List<WebElement> loginToMyProductsLinks;
-	
-	@FindBy(xpath="//div[@id='resultsContainer']//div//a")
-	private WebElement resultContainer;
-	
-	@FindBy(xpath="//div[@class='cmp-breadcrumb']//a")
-	private WebElement breadCrumb;
-	
-	@FindBy(xpath="//input[@aria-label='Search Product']")
-	private WebElement searchProducts;
-	
-	@FindBy(xpath="//div[@class='ap-option-item']")
-	private WebElement optionItem;
-	
-	@FindBy(xpath="//a[@class='cmp-product-list__card-link']")
-	private WebElement resultLink;
+	@FindBy(xpath="//ul[@class='vs-header__search-key-suggestion']//li")
+	private static List<WebElement> trendingSuggestions;
 	
 	
 	
 	
+	ReadXLSdata read1=new ReadXLSdata();
 	
-	
-	ReadXLSdata read2=new ReadXLSdata();
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	static Logger logger=Logger.getLogger("HomePage");
-	
-	
-	
-	public void setImage() throws Exception {
+	public void setAccesingHomepage(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
 	    HelperFunctions.waitForPageToLoad(3);
-	    Boolean image = (Boolean) ((JavascriptExecutor) Driver.getDriver())
-	        .executeScript("return arguments[0].complete && typeof arguments[0].naturalWidth != \"undefined\" "
-	            + "&& arguments[0].naturalWidth > 0", promotionBannerImage);
-	    if (!image) {
-	        String errorMessage = "The promotion banner does not contain an image";
-	        logger.error(errorMessage);
-	        throw new Exception(errorMessage);
-
-	    } else {
-	        String successMessage = "The promotion banner contains an image";
-	        logger.info(successMessage);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
 	    }
-	}
-	public void setDescriptionOfBanner() throws Exception {
-		 HelperFunctions.waitForPageToLoad(10);
-		    read2.setExcelFile("./testdata.xlsx", "QA");
-		    String actual = descriptionOfPromotionBanner.getText();
-		    String expected = read2.getCellData("VALUE", 29);
-		    if (!actual.equals(expected)) {
-		        String errorMessage = "The promotion banner does not match with the expected text.";
-		        logger.error(errorMessage);
-		        throw new Exception(errorMessage);
-		    }else {
-		        String successMessage = "The promotion banner contains an image";
-		        logger.info(successMessage);
-		    }
-	}
-	
-	
-	public void setPromotionBanner() throws Exception {
-		HelperFunctions.waitForPageToLoad(3);
-		if(!promotionBanner.isDisplayed()) {
-			 String successMessage = "The promotion banner contains an image";
-		        logger.info(successMessage);
-			 Assert.assertTrue(true);
-	      } else {
-	    	  String errorMessage = "The promotion banner does not match with the expected text.";
-		        logger.error(errorMessage);
-		        throw new Exception(errorMessage);
-	     //   logger.error("The promotion banner is not visible to all users on homepage");
-	      }
-		
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    Assert.assertTrue(tagPills.get(0).isDisplayed());
+	    test.info("Verified tag pill is displayed");
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(userIcon.isDisplayed());
+	    HelperFunctions.staticWait(2);
 	}
 	
+	public void setFilterContentpage(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    test.info("Clicked on select topic");
+        selectTopic.click();
+        HelperFunctions.staticWait(2);
+        test.info("Wait for deals checkbox visibility and clicked on it");
+        WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(dealsCheckbox));
+	    JavascriptExecutor js2 = (JavascriptExecutor) Driver.getDriver();
+	    js2.executeScript("arguments[0].click();", dealsCheckbox);
+	   // dealsCheckbox.click();
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on select topic");
+	    selectTopic.click();
+	    HelperFunctions.staticWait(2);
+	    ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", automationContentPage);
+	    test.info("Scroll to automation content page");
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(automationContentPage.isDisplayed());
+	    test.info("Verified automation content page is displayed");
+	    HelperFunctions.staticWait(2);
+	}
+	public void setCheckboxColor(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    test.info("Clicked on select topic");
+        selectTopic.click();
+        HelperFunctions.staticWait(2);
+        test.info("Wait for deals checkbox visibility and move the cursor on it");
+        WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(dealsCheckbox));
+	   // String checkboxColor = dealsCheckbox.getCssValue("style");
+	   // System.out.println(checkboxColor);
+	    JavascriptExecutor executor = (JavascriptExecutor) Driver.getDriver();
+	    String backgroundColor = (String) executor.executeScript("return window.getComputedStyle(arguments[0], ':before').getPropertyValue('background-color');", dealsCheckbox);
+	    System.out.println(backgroundColor);
+	    Actions actions = new Actions(Driver.getDriver());
+        actions.moveToElement(dealsCheckbox).perform();
+	    HelperFunctions.staticWait(2);
+	    JavascriptExecutor executor2 = (JavascriptExecutor) Driver.getDriver();
+	    String backgroundColor2 = (String) executor2.executeScript("return window.getComputedStyle(arguments[0], ':before').getPropertyValue('background-color');", dealsCheckbox);
+	    System.out.println(backgroundColor2);
+	    HelperFunctions.staticWait(2);
+	    Assert.assertNotEquals(backgroundColor, backgroundColor2);
+	    test.info("Verified the color of the checkbox has changed after moving the cursor on it");
+	    HelperFunctions.staticWait(2);
+	}
+    
+	public void setClearFilters(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    test.info("Clicked on select topic");
+        selectTopic.click();
+        HelperFunctions.staticWait(2);
+        test.info("Wait for deals checkbox visibility and clicked on it");
+        WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(dealsCheckbox));
+	    JavascriptExecutor js2 = (JavascriptExecutor) Driver.getDriver();
+	    js2.executeScript("arguments[0].click();", dealsCheckbox);
+	   // dealsCheckbox.click();
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on select topic");
+	    selectTopic.click();
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(selectedFilter.isDisplayed());
+	    test.info("Verified selected filter is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on clear filter");
+        clearFilter.click();
+        HelperFunctions.staticWait(5);
+        Assert.assertTrue(filterTitle.isDisplayed());
+        test.info("Verified the filter title is displayed");
+        HelperFunctions.staticWait(3);
+        
+	}
+	public void setVSHomepage(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    test.info("Clicked on value store");
+	    valueStore.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for filter title visibility");
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(filterTitle));
+	    HelperFunctions.staticWait(2);
+        Assert.assertTrue(filterTitle.isDisplayed());
+        test.info("Verified the filter title is displayed");
+        HelperFunctions.staticWait(3);
+	}
 	
-	public void sethomePageTiles() throws Exception {
-		HelperFunctions.waitForPageToLoad(3);
-		for(WebElement TilesItems:homePageTiles) {
-			if(TilesItems.isDisplayed()) {
-				 String successMessage = "The promotion banner contains an image";
-			        logger.info(successMessage);
-				Assert.assertTrue(true);
-			}else {
-				 String errorMessage = "Missing home page tile";
-			        logger.error(errorMessage);
-			        throw new Exception(errorMessage);
-				//logger.error("Missing home page tile");
-			}
-	}
-		
-	}
-	public void setLegalTile() {
-		
-		HelperFunctions.waitForPageToLoad(5);
-		for (WebElement link : homePageTiles) {
-		    try {
-		        String expectedUrl = link.getAttribute("href");
-		        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 20);
-		        WebElement linkClickable = wait.until(ExpectedConditions.elementToBeClickable(link));
-		        linkClickable.click();
-		        String actualUrl = Driver.getDriver().getCurrentUrl();
-		        Assert.assertEquals(expectedUrl, actualUrl);
-		    } catch (StaleElementReferenceException e) {
-		      
-		    }
-		}
-   
-		
-	}
-
-	public void setTitleOfTiles() throws Exception {
-		for(WebElement eachTitle:titleOfTiles) {
-			if(eachTitle.isDisplayed()) {
-				 String successMessage = "Tiles contain a title";
-			        logger.info(successMessage);
-				Assert.assertTrue(true);
-			}else {
-				  String errorMessage = "Tiles do not contain a title";
-			        logger.error(errorMessage);
-			        throw new Exception(errorMessage);
-				//logger.error("Tiles do not contain a title");
-			}
-	}
-		
-		
-	}
-	
-	public void setOneStopTitle() throws Exception {
-		HelperFunctions.waitForPageToLoad(3);
-		read2.setExcelFile("./testdata.xlsx", "QA");
-		String actualTitle=oneStopTitle.getText();
-		String expectedTitle=read2.getCellData("VALUE", 30);
-		
-	//	Assert.assertEquals(actualTitle, expectedTitle, "Actual and expected title do not match");
-		 if (!actualTitle.equals(expectedTitle)) {
-			  String errorMessage = "Actual and expected title do not match";
-		        logger.error(errorMessage);
-		        throw new Exception(errorMessage);
-		  }else {
-			  String successMessage = "Actual and expected title match";
-		        logger.info(successMessage);
-		  }
-	}
-	
-	public void setDescriptionOfTiles() throws Exception {
-		for(WebElement eachDescription: descriptionOfTiles) {
-			System.out.println(eachDescription.getCssValue("-webkit-line-clamp"));
-			if(eachDescription.getCssValue("-webkit-line-clamp").equals("6")) {
-				 String successMessage = "The description is 6 lines";
-			        logger.info(successMessage);
-				Assert.assertTrue(true);
-			}else {
-				 String errorMessage = "The description is more than 6 lines";
-			        logger.error(errorMessage);
-			        throw new Exception(errorMessage);
-//				logger.error("The description is more than 6 lines");
-				
-			}
-		}
+	public void setLoadMoreButton(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    test.info("Clicked on select topic");
+        selectTopic.click();
+        HelperFunctions.staticWait(2);
+        test.info("Wait for deals checkbox visibility and clicked on it");
+        WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(dealsCheckbox));
+	    JavascriptExecutor js2 = (JavascriptExecutor) Driver.getDriver();
+	    js2.executeScript("arguments[0].click();", dealsCheckbox);
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on select topic");
+	    selectTopic.click();
+	    test.info("Getting the initial asset size");
+	    int initialSize = assets.size();
+	    HelperFunctions.staticWait(2);
+	    test.info("Scroll to load more button");
+	    HelperFunctions.scrollToElement(loadMore);
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on load more");
+	    JavascriptExecutor js4 = (JavascriptExecutor) Driver.getDriver();
+	    js4.executeScript("arguments[0].click();", loadMore);
+	    //loadMore.click();
+	    HelperFunctions.staticWait(2);
+	    test.info("Getting the new asset size");
+	    int newSize = assets.size();
+	    if (newSize > initialSize) {
+	    	Assert.assertTrue(true);
+	        System.out.println("New assets were loaded successfully");
+	    } else {
+	    	Assert.assertTrue(false);
+	        System.out.println("No new assets were loaded");
+	    }
+	    HelperFunctions.staticWait(3);
+	    test.info("Verified new assets were loaded successfully");
 	}
 	
-	public void setTitleAndDescription() throws Exception {
-		HelperFunctions.waitForPageToLoad(3);
-		if(title.isDisplayed() && descriptionOfTitle.isDisplayed()) {
-			String successMessage = "Verified title and description";
-	        logger.info(successMessage);
-			Assert.assertTrue(true);
-		}else {
-			String errorMessage = "Not verified title and description";
-	        logger.error(errorMessage);
-	        throw new Exception(errorMessage);
-//			logger.error("The title or description does not exist on homepage");
-			
-		}
+	public void setNoSubmitNeeded(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    Assert.assertTrue(firstAssetHomepage.isDisplayed());
+	    test.info("Verified the first asset is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on select topic");
+        selectTopic.click();
+        HelperFunctions.staticWait(2);
+        test.info("Wait for deals checkbox visibility and clicked on it");
+        WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(dealsCheckbox));
+	    JavascriptExecutor js2 = (JavascriptExecutor) Driver.getDriver();
+	    js2.executeScript("arguments[0].click();", dealsCheckbox);
+	    HelperFunctions.staticWait(2);
+	    test.info("Scroll to first asset");
+	    ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", firstAssetFilter);
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(firstAssetFilter.isDisplayed());
+	    test.info("Verified the first asset after filtering is displayed");
+	    HelperFunctions.staticWait(2);
 	}
 	
-	public void setTitleforAuthor() {
-		
-	}
-	
-    public void setSearchButton() throws Exception {
-    	HelperFunctions.waitForPageToLoad(3);
-    	searchButton.click();
-    	HelperFunctions.staticWait(3);
-    	
-        searchInput.sendKeys("products");
-        searchInput.sendKeys(Keys.ENTER);
-        if(productDropdown.isDisplayed() && catDropdown.isDisplayed() && sortingDropdown.isDisplayed()) {
-        	 String successMessage = "dropdowns are displayed";
-		        logger.info(successMessage);
+	public void setSharetheURL(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    Assert.assertTrue(firstAssetHomepage.isDisplayed());
+	    test.info("Verified the first asset is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on it");
+	    firstAssetHomepage.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Getting the current url and copy-paste it");
+	    String url = Driver.getDriver().getCurrentUrl();
+        StringSelection selection = new StringSelection(url);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, null);
+        Driver.getDriver().findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "t");
+        Driver.getDriver().switchTo().defaultContent();
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        HelperFunctions.staticWait(5);
+        String newUrl = Driver.getDriver().getCurrentUrl();
+        if (url.equals(newUrl)) {
         	Assert.assertTrue(true);
-        }else {
-        	 String errorMessage = "dropdowns are not displayed";
-		        logger.error(errorMessage);
-		        throw new Exception(errorMessage);
-        	//Assert.assertTrue(false);
+            System.out.println("Copy-paste successful!");
+        } else {
+        	Assert.assertTrue(false);
+            System.out.println("Copy-paste failed!");
         }
+        test.info("Verified Copy-paste action was successful");
         HelperFunctions.staticWait(3);
-        productDropdown.click();
-        changeNavigatorCheckbox.click();
-        HelperFunctions.staticWait(3);
-        catDropdown.click();
-        dataAppCheckbox.click();
-        documentationCheckbox.click();
-        catDropdown.click();
-     //   Assert.assertEquals(dataAppTitle.getText(), "Data Processing Addendum");
-        if (!dataAppTitle.getText().equals("Data Processing Addendum")) {
-			  String errorMessage = "Texts are not matching";
-		        logger.error(errorMessage);
-		        throw new Exception(errorMessage);
-		  }else {
-			  String successMessage = "Texts are matching";
-		        logger.info(successMessage);
-		  }
-        Assert.assertEquals(documentationTitle.getText(), "Documentation");
-        if (!documentationTitle.getText().equals("Documentation")) {
-			  String errorMessage = "Texts are not matching";
-		        logger.error(errorMessage);
-		        throw new Exception(errorMessage);
-		  }else {
-			  String successMessage = "Texts are matching";
-		        logger.info(successMessage);
-		  }
-        
-        dataAppTitle.click();
-  
-        if(pdfViewer.isDisplayed()) {
-        	String successMessage = "Pdf is displayed";
-	        logger.info(successMessage);
-    			Assert.assertTrue(true);
-    		}else {
-    			 String errorMessage = "Pdf is not displayed";
- 		        logger.error(errorMessage);
- 		        throw new Exception(errorMessage);
-   		//	logger.error("Data App content is not displayed");
-    			
-    		}
-        
-        
-        
-        
-        
-        
 	}
-    
-    public void setSortedResult() throws Exception {
-    	HelperFunctions.waitForPageToLoad(3);
-    	searchButton.click();
-    	HelperFunctions.staticWait(3);
-    	
-        searchInput.sendKeys("products");
-        searchInput.sendKeys(Keys.ENTER);
-        HelperFunctions.staticWait(3);
-        productDropdown.click();
-       // changeNavigatorCheckbox.click();
-        HelperFunctions.staticWait(3);
-        productDropdown.click();
-        HelperFunctions.staticWait(3);
-        catDropdown.click();
-        for(int i=0; i<catDropdownCheckboxes.size(); i++)
-		{
-			if(catDropdownCheckboxes.get(i).isDisplayed() && catDropdownCheckboxes.get(i).isEnabled())
-			{
-                  // System.out.println("Checkbox is displayed at index : " + i + " Clicking on it now");
-                   catDropdownCheckboxes.get(i).click();
-			}
-		}
-        HelperFunctions.staticWait(3);
-        catDropdown.click();
-        HelperFunctions.staticWait(3);
-        
-        ArrayList<String> obtainedList = new ArrayList<>(); 
-        for(WebElement we:resultList){
-        	   obtainedList.add(we.getText());
-        	   //System.out.println(obtainedList);
-        	}
-        	ArrayList<String> sortedList = new ArrayList<>();   
-        	for(String s:obtainedList){
-        	sortedList.add(s);
-        	//System.out.println(sortedList);
-        	}
-        	Collections.sort(sortedList);
-        //	Assert.assertTrue(sortedList.equals(obtainedList));
-        	 if (!sortedList.equals(obtainedList)) {
-				  String errorMessage = "The promotion banner does not match with the expected text.";
-			        logger.error(errorMessage);
-			        throw new Exception(errorMessage);
-			  }else {
-				  String successMessage = "The promotion banner contains an image";
-			        logger.info(successMessage);
-			  }
-
-    
-    	
-    	
-    	
-    	
-    }
-    public void setDropdown() throws Exception {
-    	HelperFunctions.waitForPageToLoad(3);
-    	searchButton.click();
-    	HelperFunctions.staticWait(3); 
-    	
-        searchInput.sendKeys("products");
-        searchInput.sendKeys(Keys.ENTER);
-        HelperFunctions.staticWait(3);
-        if(productDropdown.isEnabled() && productDropdown.isDisplayed()) 
-        { 
-        	String successMessage = "Product Dropdown is enabled and visible";
-	        logger.info(successMessage);
-        } 
-       else { 
-    	   String errorMessage = "Product Dropdown is not visible";
-	        logger.error(errorMessage);
-	        throw new Exception(errorMessage);
-          
-       } 
-        productDropdown.click();
-        changeNavigatorCheckbox.click();
-        HelperFunctions.staticWait(3);
-        if(catDropdown.isEnabled() && catDropdown.isDisplayed()) 
-        { 
-        	String successMessage = "Category Dropdown is enabled and visible";
-	        logger.info(successMessage);
-        } 
-       else { 
-    	   String errorMessage = "Category Dropdown is not visible";
-	        logger.error(errorMessage);
-	        throw new Exception(errorMessage);
-         
-       } 
-        catDropdown.click();
-        dataAppCheckbox.click();
-        documentationCheckbox.click();
-        catDropdown.click();
-        if (!dataAppTitle.getText().equals("Data Processing Addendum")) {
-			  String errorMessage = "Texts are not matching.";
-		        logger.error(errorMessage);
-		        throw new Exception(errorMessage);
-		  }else {
-			  String successMessage = "Texts are matching";
-		        logger.info(successMessage);
-		  }
-      
-        if (!documentationTitle.getText().equals("Documentation")) {
-			  String errorMessage = "Texts are not matching.";
-		        logger.error(errorMessage);
-		        throw new Exception(errorMessage);
-		  }else {
-			  String successMessage = "Texts are matching";
-		        logger.info(successMessage);
-		  }
-        
-        dataAppTitle.click();
-        //Driver.getDriver().switchTo().frame(0);
-        if(pdfViewer.isDisplayed()) {
-        	String successMessage = "pdf viewer is displayed";
-	        logger.info(successMessage);
-			Assert.assertTrue(true);
-		}else {
-			String errorMessage = "pdf viewer is not displayed";
-	        logger.error(errorMessage);
-	        throw new Exception(errorMessage);
-//			logger.error("Data App content is not displayed");
-			
-		}
-            
+	
+	public void setFavicon(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    Assert.assertTrue(firstAssetHomepage.isDisplayed());
+	    test.info("Verified the first asset is displayed on homapage");
+	    test.info("Getting the favicon link");
+	    String faviconUrl = faviconLink.getAttribute("href");
+	 if (faviconUrl != null && faviconUrl.contains("favicon.ico")) {
+		 Assert.assertTrue(true);
+	     System.out.println("Favicon found!");	
+	 } else {
+		 Assert.assertTrue(false);
+	     System.out.println("Favicon not found.");
+	 }
+	 test.info("Verified the favicon is displayed");
 	}
-    
-    public void setLogintoMyProduct() {
-    	HelperFunctions.waitForPageToLoad(3);
-    	loginToMyProductLink.click();
-    }
-    
-    public void setDropdownList() {
-    	HelperFunctions.waitForPageToLoad(3);
-    	searchButton.click();
-    	HelperFunctions.staticWait(3);
-    	
-        searchInput.sendKeys("products");
-        searchInput.sendKeys(Keys.ENTER);
-        HelperFunctions.staticWait(3);
-        if(productDropdown.isEnabled() && productDropdown.isDisplayed()) 
-        { 
-           System.out.println("Product Dropdown is enabled and visible"); 
-        } 
-       else { 
-           System.out.println("Product Dropdown is not visible"); 
-       }   
-        
-        
-    }
-    public void setDropdownList2() throws Exception {
-    	HelperFunctions.staticWait(3);
-    	productDropdown.click();
-    	
-    	 FileInputStream file = new FileInputStream("C:\\Users\\erong\\git\\ProductCentralProject-Automation1\\testdata.xlsx");
-         XSSFWorkbook workbook = new XSSFWorkbook(file);
-         XSSFSheet sheet = workbook.getSheetAt(1); 
-    	HelperFunctions.staticWait(3);
-        int columnIndex2 = 1;
-        HashSet<String> cellValues2 = new HashSet<String>();
-        for (int rowNum = 0; rowNum < sheet.getLastRowNum(); rowNum++) {
-            XSSFRow row = sheet.getRow(rowNum);
-            if(row == null) continue;
-            XSSFCell cell = row.getCell(columnIndex2);
-            if(cell == null) continue;
-            cellValues2.add(cell.getStringCellValue());
-        }
-        for (WebElement element2 : productDropdownList) {
-            if(element2.isDisplayed() && element2.isEnabled()){
-                String elementText2 = element2.getText();
-                if(elementText2!=null && !elementText2.isEmpty()){
-                    Assert.assertTrue(cellValues2.contains(elementText2), "element text: " + elementText2 + " not found in the column: " + columnIndex2);
-                }else{
-                    System.out.println("Element text is empty or null, skipping the element");
-                }
-            }else{
-                System.out.println("Element is not interactable or not visible, skipping the element");
-            }
-        }
-    	HelperFunctions.staticWait(3); 
-    	catDropdown.click();
-    	 HelperFunctions.staticWait(3);
-         int columnIndex3 = 0;
-         HashSet<String> cellValues3 = new HashSet<String>();
-         for (int rowNum = 0; rowNum < sheet.getLastRowNum(); rowNum++) {
-             XSSFRow row = sheet.getRow(rowNum);
-             if(row == null) continue;
-             XSSFCell cell = row.getCell(columnIndex3);
-             if(cell == null) continue;
-             cellValues3.add(cell.getStringCellValue());
-         }
-         for (WebElement element3 : catDropdownList) {
-             if(element3.isDisplayed() && element3.isEnabled()){
-                 String elementText3 = element3.getText();
-                 if(elementText3!=null && !elementText3.isEmpty()){
-                     Assert.assertTrue(cellValues3.contains(elementText3), "element text: " + elementText3 + " not found in the column: " + columnIndex3);
-                 }else{
-                     System.out.println("Element text is empty or null, skipping the element");
-                 }
-             }else{
-                 System.out.println("Element is not interactable or not visible, skipping the element");
-             }
-         }
-       
-        
-        }
-    
-   public void setSearchResult() {
-	   HelperFunctions.waitForPageToLoad(3);
-   	searchButton.click();
-   	HelperFunctions.staticWait(3);
-   	
-       searchInput.sendKeys("products");
-       searchInput.sendKeys(Keys.ENTER);
-       HelperFunctions.staticWait(3);
-       productDropdown.click();
-       String expectedProductName="master-data-management";
-       for(int i=0; i<productCheckbox.size(); i++) {
-    	   if(productCheckbox.get(i).getAttribute("id").equalsIgnoreCase(expectedProductName)) {
-    		   productCheckbox.get(i).click();
-    	   }
-       }
-       productDropdown.click();
-       HelperFunctions.staticWait(3);
-       String actualProductName=resultContainer.getAttribute("data-product-name");
-       System.out.println(actualProductName);
-       Assert.assertEquals(actualProductName, expectedProductName);
-       resultContainer.click();
-       HelperFunctions.staticWait(3);
-      // breadCrumb.click();
-      // HelperFunctions.staticWait(3);
-       String actualTitle=oneStopTitle.getText();
-       String expectedTitle="Master Data Management";
-       Assert.assertEquals(actualTitle, expectedTitle);
-       breadCrumb.click();
-       HelperFunctions.staticWait(3);
-       searchProducts.click();
-       searchProducts.sendKeys(expectedTitle);
-       optionItem.click();
-       HelperFunctions.staticWait(3);
-       String actualTitle2=resultLink.getAttribute("data-product-name");
-       Assert.assertEquals(actualTitle2, expectedTitle);
-
-
-   }
-   
-    
-    
-    
-    public void setLoginToMyProductLink() {
-    	HelperFunctions.waitForPageToLoad(5);
-    	 JavascriptExecutor js2 = (JavascriptExecutor) Driver.getDriver();
- 	    js2.executeScript("window.scrollBy(0,250)", "");
- 	   HelperFunctions.staticWait(3);
-    	for(WebElement each:loginToMyProductsLinks) {
-    		each.click();
-    		break;
-    		
-    	}
-  
-    	if(pwcLogo.isDisplayed() && email.isDisplayed() && next.isDisplayed()) {
-    		Assert.assertTrue(true);
-    	}else {
-    		Assert.assertTrue(false);
-    	}
-    }
-        
-        
-        
-    
+	public void setTop10ArticleElementsClickable(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    test.info("Getting the current url");
+	    String currentUrl=Driver.getDriver().getCurrentUrl();
+	    test.info("Clicked on first article title");
+	    JavascriptExecutor js2 = (JavascriptExecutor) Driver.getDriver();
+	    js2.executeScript("arguments[0].click();", firstArticleTitle);
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(logo));
+	    test.info("Getting the current url");
+	    String currentUrl2=Driver.getDriver().getCurrentUrl();
+	    Assert.assertNotEquals(currentUrl, currentUrl2);
+	    test.info("Verified the url values are different");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on logo");
+	    logo.click();
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for filter title visibility");
+	    WebDriverWait wait4 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait4.until(ExpectedConditions.visibilityOf(filterTitle));
+	    HelperFunctions.staticWait(3); 
+	    test.info("Clicked on first article description");
+	    JavascriptExecutor js3 = (JavascriptExecutor) Driver.getDriver();
+	    js3.executeScript("arguments[0].click();", firstArticleDescription);
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait5 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait5.until(ExpectedConditions.visibilityOf(logo));
+	    String currentUrl3=Driver.getDriver().getCurrentUrl();
+	    Assert.assertNotEquals(currentUrl, currentUrl3);
+	    test.info("Verified the url values are different");
+	    HelperFunctions.staticWait(3);
+	}
+	public void setMoretoExplore(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    HelperFunctions.staticWait(3);
+	    test.info("Scroll to more to explore");
+	    HelperFunctions.scrollToElement(moretoExplore);
+	    HelperFunctions.staticWait(3);
+	    Assert.assertTrue(moretoExplore.isDisplayed());
+	    test.info("Verified more to explore title is displayed");
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(moretoExploreSub.isDisplayed());
+	    test.info("Verified more to explore subtitle is displayed");
+	    HelperFunctions.staticWait(2);
+	    for(WebElement each: exploreItems) {
+	    	if(each.isDisplayed()) {
+	    		Assert.assertTrue(true);
+	    	}else {
+	    		Assert.assertTrue(false);
+	    	}
+	    }
+	    test.info("Verified more to explore items are displayed");
+	    HelperFunctions.staticWait(2);
+	    for (WebElement element : exploreItems) {
+	        List<WebElement> imgs = element.findElements(By.tagName("img"));
+	        if (!imgs.isEmpty()) {
+	        	Assert.assertTrue(true);
+	            System.out.println("Element contains img tag: " + element.getText());
+	        }
+	    }
+	    test.info("Verified each more to explore items have an img tag");
+	    HelperFunctions.staticWait(2);
+	    
+	}
+	public void setMoretoExploreItemNavigation(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    HelperFunctions.staticWait(3);
+	    test.info("Scroll to more to explore");
+	    HelperFunctions.scrollToElement(moretoExplore);
+	    HelperFunctions.staticWait(3);
+	    Assert.assertTrue(moretoExplore.isDisplayed());
+	    test.info("Verified more to explore title is displayed");
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(moretoExploreSub.isDisplayed());
+	    test.info("Verified more to explore subtitle is displayed");
+	    HelperFunctions.staticWait(2);
+	    String currentUrl=Driver.getDriver().getCurrentUrl();
+	    for (WebElement element : exploreItems) {
+	        List<WebElement> tags = element.findElements(By.tagName("a"));
+	        if (!tags.isEmpty()) {
+	        	Assert.assertTrue(true);
+	            System.out.println("Element contains a tag: " + element.getText());
+	        }
+	    }
+	    test.info("Verified each more to explore items have a tag");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on more to explore item");
+	    JavascriptExecutor js2 = (JavascriptExecutor) Driver.getDriver();
+	    js2.executeScript("arguments[0].click();", exploreItems.get(0));
+	   // exploreItems.get(0).click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    String currentUrl2=Driver.getDriver().getCurrentUrl();
+	    HelperFunctions.staticWait(2);
+	    Assert.assertNotEquals(currentUrl, currentUrl2);
+	    test.info("Verified more to explore item tag is landing to another url");
+	    HelperFunctions.staticWait(2);
+	    
+	    
+	}
+	public void setNoSearchResult(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    HelperFunctions.staticWait(3);
+	    test.info("Clicked on search button");
+	    searchButton.click();
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on search field and perform enter");
+	    searchField.click();
+	    HelperFunctions.staticWait(2);
+	    Actions actions = new Actions(Driver.getDriver());
+	    actions.sendKeys(Keys.ENTER).build().perform();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for no search result message is displayed");
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(noSearchResult));
+	    Assert.assertTrue(noSearchResult.isDisplayed());
+	    test.info("Verified no search result message is displayed");
+	    HelperFunctions.staticWait(2);
+	    
+	    
+	}
+	public void setMightAlsoLikeItems(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    HelperFunctions.staticWait(3);
+	    test.info("Scroll to also like title");
+	    HelperFunctions.scrollToElement(alsoLikeTitle);
+	    HelperFunctions.staticWait(3);
+	    Assert.assertTrue(alsoLikeTitle.isDisplayed());
+	    test.info("Verified also like title is displayed");
+	    HelperFunctions.staticWait(2);
+	    for(WebElement each: alsoLikeLabels) {
+	    	if(each.isDisplayed()) {
+	    		Assert.assertTrue(true);
+	    	}else {
+	    		Assert.assertTrue(false);
+	    	}
+	    }
+	    test.info("Verified alsoLikeLabels are displayed");
+	    HelperFunctions.staticWait(2);
+	    for(WebElement each: alsoLikeTitles) {
+	    	if(each.isDisplayed()) {
+	    		Assert.assertTrue(true);
+	    	}else {
+	    		Assert.assertTrue(false);
+	    	}
+	    }
+	    test.info("Verified alsoLikeTitles are displayed");
+	    HelperFunctions.staticWait(2);
+	    for(WebElement each: alsoLikeFavIcon) {
+	    	if(each.isDisplayed()) {
+	    		Assert.assertTrue(true);
+	    	}else {
+	    		Assert.assertTrue(false);
+	    	}
+	    }
+	    test.info("Verified alsoLikeFavIcons are displayed");
+	    HelperFunctions.staticWait(2);
+	}
+	public void setMightAlsoLikeItems2(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    test.info("Verified logo is displayed");
+	    HelperFunctions.staticWait(3);
+	    test.info("Scroll down to also like title");
+	    HelperFunctions.scrollToElement(alsoLikeTitle);
+	    HelperFunctions.staticWait(3);
+	    Assert.assertTrue(alsoLikeTitle.isDisplayed());
+	    test.info("Verified also like title is displayed");
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(alsoLikeFavIcon.size()==3);
+	    test.info("Verified also like fav icon size is 3");
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(alsoLikeImage.isDisplayed());
+	    WebElement img = alsoLikeImage.findElement(By.tagName("img"));
+	    if (img != null) {
+	    	Assert.assertTrue(true);
+	        System.out.println("Element has img tag: " + alsoLikeImage.getText());
+	    }else {
+	    	Assert.assertTrue(false);
+	    }
+	    test.info("Verified also like image is displayed and has image tag");
+	    test.info("Verified total element's size is 4");
+	    HelperFunctions.staticWait(2);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public void setQuickLinksIconVisibility(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for quick links icon visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(quickLinksIcon));
+	    HelperFunctions.staticWait(3);
+	    Assert.assertTrue(quickLinksIcon.isDisplayed());
+	    test.info("Verified quick links icon is displayed");
+	    HelperFunctions.staticWait(2);
+	   
+	}
+	public void setQuickLinksIconOpensItems(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for quick links icon visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(quickLinksIcon));
+	    HelperFunctions.staticWait(3);
+	    Assert.assertTrue(quickLinksIcon.isDisplayed());
+	    test.info("Verified quick links icon is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on quick links icon");
+	    quickLinksIcon.click();
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(closeQuickLinks));
+	    Assert.assertTrue(closeQuickLinks.isDisplayed());
+	    test.info("Verified close button is displayed");
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(tdMenuItems.get(0).isDisplayed());
+	    test.info("Verified tdMenuItem is displayed");
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(wtMenuItems.get(0).isDisplayed());
+	    test.info("Verified wtMenuItem is displayed");
+	    HelperFunctions.staticWait(2);
+	}
+	public void setQuickLinksIconCloseMegaMenu(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for quick links icon visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(quickLinksIcon));
+	    HelperFunctions.staticWait(3);
+	    Assert.assertTrue(quickLinksIcon.isDisplayed());
+	    test.info("Verified quick links icon is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on quick links icon");
+	    quickLinksIcon.click();
+	    test.info("Wait for close button");
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(closeQuickLinks));
+	    Assert.assertTrue(closeQuickLinks.isDisplayed());
+	    test.info("Verified close button is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on quick links icon");
+	    quickLinksIcon.click();
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(!closeQuickLinks.isDisplayed());
+	    test.info("Verified close button is not displayed");
+	    HelperFunctions.staticWait(2);
+	}
+	public void setSearchResultsBasedonKeyword(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    HelperFunctions.staticWait(3);
+	    test.info("Clicked on search button");
+	    searchButton.click();
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on search field and send text");
+	    searchField.click();
+	    HelperFunctions.staticWait(2);
+	    String mockContent="Tax";
+	    searchField.sendKeys(mockContent);
+	    HelperFunctions.staticWait(5);
+	    test.info("Wait for suggested keyword visibility");
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(suggestedKeyword));
+	    Assert.assertTrue(suggestedKeyword.isDisplayed());
+	    test.info("Verified suggested keyword is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on enter");
+	    Actions actions = new Actions(Driver.getDriver());
+	    actions.sendKeys(Keys.ENTER).build().perform();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for search item visibility");
+	    WebDriverWait wait4 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait4.until(ExpectedConditions.visibilityOf(searchItem));
+	    Assert.assertTrue(searchItem.isDisplayed());
+	    test.info("Verified search item is displayed");
+	    HelperFunctions.staticWait(2);
+	    
+	    
+	}
+	public void setTrendingSearch(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    HelperFunctions.staticWait(3);
+	    test.info("Clicked on search button");
+	    searchButton.click();
+	    HelperFunctions.staticWait(2);
+	    searchField.click();
+	    HelperFunctions.staticWait(2);
+	    test.info("Wait for trending search visibility");
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(trendingSearch));
+	    Assert.assertTrue(trendingSearch.isDisplayed());
+	    test.info("Verified trending search is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on first trending suggestion");
+	    trendingSuggestions.get(0).click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for search item visibility");
+	    WebDriverWait wait4 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait4.until(ExpectedConditions.visibilityOf(searchItem));
+	    Assert.assertTrue(searchItem.isDisplayed());
+	    test.info("Verified search item is displayed");
+	    HelperFunctions.staticWait(2);
+	    
+	    
+	}
+	public void setSearchResultsTopicTitleIcon(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    HelperFunctions.staticWait(3);
+	    test.info("Clicked on search button");
+	    searchButton.click();
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on search field and send text");
+	    searchField.click();
+	    HelperFunctions.staticWait(2);
+	    String mockContent="Tax";
+	    searchField.sendKeys(mockContent);
+	    HelperFunctions.staticWait(5);
+	    test.info("Wait for suggested keyword's visibility");
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(suggestedKeyword));
+	    Assert.assertTrue(suggestedKeyword.isDisplayed());
+	    test.info("Verified suggested keyword is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on enter");
+	    Actions actions = new Actions(Driver.getDriver());
+	    actions.sendKeys(Keys.ENTER).build().perform();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait search item's visibility");
+	    WebDriverWait wait4 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait4.until(ExpectedConditions.visibilityOf(searchItem));
+	    Assert.assertTrue(searchItem.isDisplayed());
+	    test.info("Verified search item is displayed");
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(searchItemIcon.isDisplayed());
+	    test.info("Verified search icon is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on search item");
+	    searchItem.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    Set<String> handles = Driver.getDriver().getWindowHandles();
+	    if (handles.size() == 2) {
+	    	Assert.assertTrue(true);
+	     System.out.println("Element opened the same tab");
+	 }else {
+			Assert.assertTrue(false);
+	 }
+	    test.info("Verified element opened the same tab");
+	    HelperFunctions.staticWait(3);
+	    
+	}
 	
 	
 }

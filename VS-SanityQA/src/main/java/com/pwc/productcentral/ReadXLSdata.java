@@ -93,7 +93,7 @@ public class ReadXLSdata {
 	    public void setExcelFile1() throws Exception {
 	    	
 	         
-	            FileInputStream file = new FileInputStream(new File("C:\\Users\\erong\\git\\ProductCentralProject-Automation1\\testdata.xlsx"));
+	            FileInputStream file = new FileInputStream(new File("C:\\Users\\erong\\git\\repository\\VS-SanityQA\\testdata.xlsx"));
 
 	           
 	            XSSFWorkbook workbook = new XSSFWorkbook(file);
@@ -127,7 +127,7 @@ public class ReadXLSdata {
 	    public void setExcelFile2() throws Exception {
 	    	
 	         
-            FileInputStream file = new FileInputStream(new File("C:\\Users\\erong\\git\\ProductCentralProject-Automation1\\testdata.xlsx"));
+            FileInputStream file = new FileInputStream(new File("C:\\Users\\erong\\git\\repository\\VS-SanityQA\\testdata.xlsx"));
 
            
             XSSFWorkbook workbook = new XSSFWorkbook(file);
