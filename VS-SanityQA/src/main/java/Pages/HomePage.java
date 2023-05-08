@@ -168,6 +168,9 @@ public class HomePage extends HelperFunctions {
 	@FindBy(xpath="//li[@data-suggestedterm-keyword='Tax']")
 	private WebElement suggestedKeyword;
 	
+	@FindBy(xpath="//li[@data-suggestedterm-keyword='Topic']")
+	private WebElement suggestedKeyword2;
+	
 	@FindBy(xpath="(//div[@class='vs-search__more-explorer-item'])[1]")
 	private WebElement searchItem;
 	
@@ -182,6 +185,12 @@ public class HomePage extends HelperFunctions {
 	
 	@FindBy(xpath="//div[@class='vs-filter__selected vs-filter__desktop-selected']//button[normalize-space()='Deals']")
 	private WebElement dealsSearch;
+	
+	@FindBy(xpath="//h2[@class='vs-title-area__card-box-content-heading page-title ']")
+	private WebElement contentTitle;
+	
+	@FindBy(xpath="//ul[@class='vs-header__search-key-suggestion']")
+	private WebElement keySuggestion;
 	
 	
 	ReadXLSdata read1=new ReadXLSdata();
@@ -1421,13 +1430,13 @@ public class HomePage extends HelperFunctions {
 	    test.info("Clicked on search field and send text");
 	    searchField.click();
 	    HelperFunctions.staticWait(2);
-	    String mockContent="Tax";
+	    String mockContent="Topic";
 	    searchField.sendKeys(mockContent);
 	    HelperFunctions.staticWait(5);
 	    test.info("Wait for suggested keyword's visibility");
 	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
-	    wait3.until(ExpectedConditions.visibilityOf(suggestedKeyword));
-	    Assert.assertTrue(suggestedKeyword.isDisplayed());
+	    wait3.until(ExpectedConditions.visibilityOf(suggestedKeyword2));
+	    Assert.assertTrue(suggestedKeyword2.isDisplayed());
 	    test.info("Verified suggested keyword is displayed");
 	    HelperFunctions.staticWait(2);
 	    test.info("Clicked on enter");
@@ -1720,6 +1729,114 @@ public class HomePage extends HelperFunctions {
 	    } else {
 	        System.out.println("United States is not selected");
 	    }
+	    HelperFunctions.staticWait(3);
+	}
+	public void setMightAlsoLikeTitle(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    HelperFunctions.staticWait(3);
+	    test.info("Scroll to also like title");
+	    HelperFunctions.scrollToElement(alsoLikeTitle);
+	    HelperFunctions.staticWait(3);
+	    Assert.assertTrue(alsoLikeTitle.isDisplayed());
+	    test.info("Verified also like title is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on also like title");
+	    alsoLikeTitles.get(0).click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(contentTitle));
+	    Assert.assertTrue(contentTitle.isDisplayed());
+	    test.info("Verified content title is displayed");
+	    HelperFunctions.staticWait(3);
+	}
+	public void setSuggestedTags(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    HelperFunctions.staticWait(3);
+	    test.info("Clicked on search button");
+	    searchButton.click();
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on search field and send text");
+	    searchField.click();
+	    HelperFunctions.staticWait(2);
+	    String mockContent="audit";
+	    searchField.sendKeys(mockContent);
+	    HelperFunctions.staticWait(5);
+	    test.info("Wait for suggested keyword's visibility");
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(keySuggestion));
+	    Assert.assertTrue(keySuggestion.isDisplayed());
+	    test.info("Verified suggested keyword is displayed");
 	    HelperFunctions.staticWait(3);
 	}
 	

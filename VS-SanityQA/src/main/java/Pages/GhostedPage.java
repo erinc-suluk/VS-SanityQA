@@ -1,5 +1,7 @@
 package Pages;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -247,6 +249,18 @@ public class GhostedPage extends HelperFunctions{
 	    test.info("Scroll to off time element");
 	    HelperFunctions.scrollToElement(offTime);
 	    HelperFunctions.staticWait(2);
+	    test.info("Click on Off Time field and enter formatted date time");
+	    dateField.click();
+	    HelperFunctions.staticWait(2);
+	    LocalDateTime dateTime = LocalDateTime.now().plusMonths(3);
+	 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy hh:mm a");
+	 String formattedDateTime = dateTime.format(formatter);
+	 dateField.sendKeys(formattedDateTime);
+	 HelperFunctions.staticWait(2);
+	 calendar.click();
+	 HelperFunctions.staticWait(2);
+	 calendar.click();
+	 HelperFunctions.staticWait(2);
 	    test.info("Clicked on primary 1 and selected the paths");
         primary1.click();
         HelperFunctions.staticWait(2);

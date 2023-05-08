@@ -12,6 +12,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -301,6 +302,27 @@ public class ContentPage extends HelperFunctions{
 	
 	@FindBy(xpath="//figure[@class='vs-card__figure-wrapper']")
 	private static List<WebElement> tagPills;
+	
+	@FindBy(xpath="//h2[normalize-space()='What others are viewing']")
+	private WebElement whatOthersTitle;
+	
+	@FindBy(xpath="(//div[@class='vs-related-items__item-content'])[1]")
+	private WebElement firstWhatContent;
+	
+	@FindBy(xpath="//div[@class='vs-related-items__item-content']")
+	private static List<WebElement> whatContents;
+	
+	@FindBy(xpath="//div[@class='vs-related-items__item-heading']")
+	private static List<WebElement> whatTopicLabels;
+	
+	@FindBy(xpath="//div[@class='vs-related-items__item-icon']")
+	private static List<WebElement> whatTopicFavs;
+	
+	@FindBy(xpath="//div[@class='cmp-experiencefragment cmp-experiencefragment--header']")
+	private WebElement header;
+	
+	@FindBy(xpath="//div[@class='cmp-experiencefragment cmp-experiencefragment--footer']")
+	private WebElement footer;
 	
 	
 ReadXLSdata read1=new ReadXLSdata();
@@ -1509,6 +1531,267 @@ ReadXLSdata read1=new ReadXLSdata();
 	    Assert.assertTrue(copiedLink.isDisplayed()); 
 	    test.info("Assert that the 'Link copied!' confirmation is visible");
 	    HelperFunctions.staticWait(2);
+	}
+	public void setExpirationDate(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 4));
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Clicked on Content page");
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    WebElement visibleElement = wait.until(ExpectedConditions.visibilityOf(contentPage));
+	    visibleElement.click();
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on Next button");
+	    nextButton.click();
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Clicked on Title field");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(titleField));
+	    HelperFunctions.staticWait(2);
+	    test.info("Scroll to Off Time field");
+	    HelperFunctions.scrollToElement(offTime);
+	    HelperFunctions.staticWait(2);
+	    String offTimeText = offTime.getText();
+	    boolean hasAsterisk2 = offTimeText.contains("*");
+	    Assert.assertTrue(hasAsterisk2, "The 'Off Time' field does not have an asterisk.");
+	    test.info("Verified Off Time field has asterisk");
+	    HelperFunctions.staticWait(2);
+	    test.info("Click on Off Time field and enter formatted date time");
+	    dateField.click();
+	    HelperFunctions.staticWait(2);
+	    LocalDateTime dateTime = LocalDateTime.now().plusMonths(3);
+	 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy hh:mm a");
+	 String formattedDateTime = dateTime.format(formatter);
+	 dateField.sendKeys(formattedDateTime);
+	 HelperFunctions.staticWait(2);
+	 calendar.click();
+	 HelperFunctions.staticWait(2);
+	 calendar.click();
+	 HelperFunctions.staticWait(2);
+	 
+	}
+	public void setShareModals(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Verify that helpfulassetTitle is displayed");
+	    Assert.assertTrue(helpfulassetTitle.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    test.info("Clicked on first asset share icon");
+	    WebDriverWait wait4 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait4.until(ExpectedConditions.visibilityOf(firstAssetShare));
+	    Assert.assertTrue(firstAssetShare.isDisplayed());
+	    firstAssetShare.click();
+	    HelperFunctions.staticWait(2);
+	    test.info("Wait for share modal page is visible");
+	    WebDriverWait wait5 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait5.until(ExpectedConditions.visibilityOf(shareTitle));
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(copyLink.isDisplayed());
+	    test.info("Verify that copyLink is displayed");
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(shareEmail.isDisplayed());
+	    test.info("Verify that shareEmail is displayed");
+	    HelperFunctions.staticWait(2);
+	    String href4 = shareSignal.getAttribute("href");
+	    Assert.assertTrue(href4 != null && !href4.isEmpty(), "The href4 attribute is null or empty");
+	    test.info("Verify that href4 is not null or empty");
+	    Assert.assertTrue(shareSignal.isDisplayed());  
+	    test.info("Verify that shareSignal is displayed");
+	    HelperFunctions.staticWait(2);
+	}
+	
+	public void setWhatOthersViewing(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for visibility of first asset share icon");
+	    WebDriverWait wait4 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait4.until(ExpectedConditions.visibilityOf(firstAssetShare));
+	    test.info("Scroll to what others viewing title");
+	    HelperFunctions.scrollToElement(whatOthersTitle);
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(whatOthersTitle.isDisplayed());
+	    test.info("Verify that whatOthersTitle is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Checking all content title's border bottom are changing when move the cursor");
+	    for (WebElement whatContent : whatContents) {
+	        String originalBorderBottom = whatContent.getCssValue("border-bottom");
+	        System.out.println(originalBorderBottom);
+	        
+	        Actions actions = new Actions(Driver.getDriver());
+	        JavascriptExecutor js2 = (JavascriptExecutor) Driver.getDriver();
+	        js2.executeScript("arguments[0].setAttribute('style', 'border: 2px solid red;');", whatContent);
+	        
+	        actions.moveToElement(whatContent).build().perform();
+	        String borderBottom = whatContent.getCssValue("border-bottom");
+	        System.out.println("borderBottom: " + borderBottom);
+	        
+	        Assert.assertNotEquals(originalBorderBottom, borderBottom);
+	        HelperFunctions.staticWait(2);
+	        test.info("Verified all content title's border bottom are changing when move the cursor");
+	    }
+	    HelperFunctions.staticWait(2);
+	}
+	public void setWhatOthersViewingElements(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for visibility of first asset share icon");
+	    WebDriverWait wait4 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait4.until(ExpectedConditions.visibilityOf(firstAssetShare));
+	    test.info("Scroll to what others viewing title");
+	    HelperFunctions.scrollToElement(whatOthersTitle);
+	    HelperFunctions.staticWait(2);
+	    Assert.assertTrue(whatOthersTitle.isDisplayed());
+	    test.info("Verify that whatOthersTitle is displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Checking all content title are displayed");
+	    for (WebElement whatContent : whatContents) {
+	        if(whatContent.isDisplayed()) {
+	        	Assert.assertTrue(true);
+	        }else {
+	        	Assert.assertTrue(false);
+	        }
+	    }
+	    test.info("Verified all content title are displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Checking all content label are displayed");
+	    for (WebElement whatTopic : whatTopicLabels) {
+	        if(whatTopic.isDisplayed()) {
+	        	Assert.assertTrue(true);
+	        }else {
+	        	Assert.assertTrue(false);
+	        }
+	    }
+	    test.info("Verified all content label are displayed");
+	    HelperFunctions.staticWait(2);
+	    test.info("Checking all content fav icon are displayed");
+	    for (WebElement whatTopicFav : whatTopicFavs) {
+	        if(whatTopicFav.isDisplayed()) {
+	        	Assert.assertTrue(true);
+	        }else {
+	        	Assert.assertTrue(false);
+	        }
+	    }
+	    test.info("Verified all content fav icon are displayed");
+	    HelperFunctions.staticWait(3);
+	}
+	public void setHeaderFooter(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for visibility of header");
+	    WebDriverWait wait4 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait4.until(ExpectedConditions.visibilityOf(header));
+	    Assert.assertTrue(header.isDisplayed());
+	    test.info("Verified the header is displayed");
+	    HelperFunctions.staticWait(3);
+	    test.info("Scroll to footer");
+	    HelperFunctions.scrollToElement(footer);
+	    test.info("Wait for visibility of footer");
+	    WebDriverWait wait5 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait5.until(ExpectedConditions.visibilityOf(footer));
+	    Assert.assertTrue(footer.isDisplayed());
+	    test.info("Verified the footer is displayed");
+	    HelperFunctions.staticWait(3);
+	    
+	    
 	}
 	
 }

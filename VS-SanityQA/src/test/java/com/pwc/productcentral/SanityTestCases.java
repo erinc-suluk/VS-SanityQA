@@ -168,6 +168,7 @@ public class SanityTestCases extends HelperFunctions {
 	@Test(enabled=false)
 	public void WEB_5() throws Exception{
 		  String testName = "To verify that there are two heading titles that can be edited.";
+		  
 		    ExtentTest test = extent.createTest(testName);
 
 		    try {
@@ -222,7 +223,8 @@ public class SanityTestCases extends HelperFunctions {
 	
 	@Test(enabled=false)
 	public void WEB_8() throws Exception{
-		  String testName = "To verify that user can see helpful assets like documents or sites that relate to the content he is viewing in this section.";
+		  String testName = "To verify that user can see helpful assets like documents or sites that relate to the content he is viewing in this section."
+				  +"To verify that this section is use to display useful stats and information.";
 		    ExtentTest test = extent.createTest(testName);
 
 		    try {
@@ -1045,14 +1047,140 @@ public class SanityTestCases extends HelperFunctions {
 		    }
 	}
 	
+	@Test(enabled=false)
+	public void WEB_53() throws Exception{
+		  String testName = "To verify that Expiration Date field has been added to the page properties of content page & ghost page ( Not on landing page)."
+				  +"To verify that author can enter in the expiration date field.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        cp.setExpirationDate(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
 	
+	@Test(enabled=false)
+	public void WEB_54() throws Exception{
+		  String testName = "To verify that the share modal opens with the options Copy link(existing), Email(existing) & Share via Dynamic Signal(New)."+
+	"To verify that share icon should be available on the Helpful Asset component If it's configured on pages."+
+				  "To verify that author is able to add a link to the Dynamic Signal post.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        cp.setShareModals(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
+	@Test(enabled=false)
+	public void WEB_55() throws Exception{
+		  String testName = "To verify that the \"What others are viewing\" component is presented on all content pages."
+				  +"To verify that hover functionality on the (What others are viewing) article titles.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        cp.setWhatOthersViewing(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
 	
+	@Test(enabled=false)
+	public void WEB_56() throws Exception{
+		  String testName = "To verify that ( What others are viewing) article card display Topic label, article title and favorite icon the card.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        cp.setWhatOthersViewingElements(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
 	
-	
-	
-	
-	
-	
+	@Test(enabled=false)
+	public void WEB_57() throws Exception{
+		  String testName = "To verify that click on the 'You might also like' article title to open the content page.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        hp.setMightAlsoLikeTitle(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
+	@Test(enabled=false)
+	public void WEB_58() throws Exception{
+		  String testName = "Verify that, system should look at the the tags to find suggested terms that match against user’s keyword.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        hp.setSuggestedTags(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
+	@Test
+	public void WEB_59() throws Exception{
+		  String testName = "To verify that global header is configure in experiment fragment and it will persist across the pages."
+				  +"To verify that footer is configure in experiment fragment and it will persist across the pages.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        cp.setHeaderFooter(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
 	
 	
 	
