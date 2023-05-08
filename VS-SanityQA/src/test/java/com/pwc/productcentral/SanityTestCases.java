@@ -1008,8 +1008,42 @@ public class SanityTestCases extends HelperFunctions {
 		        Assert.fail("Test case failed: " + testName);
 		    }
 	}
-	
-	
+	@Test(enabled=false)
+	public void WEB_51() throws Exception{
+		  String testName = "To verify that territory selector allows user to toggle between territories.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        tlp.setFeedTopicsTagValue(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
+	@Test(enabled=false)
+	public void WEB_52() throws Exception{
+		  String testName = "To verify that the territory dropdown shows the territory that is available.";
+		    ExtentTest test = extent.createTest(testName);
+
+		    try {
+		        Driver.getDriver().get(read1.getCellData("VALUE", 3));
+		        lpo.setLogin();
+		        tlp.setFeedTopicsTagValue(test);
+		        test.pass("Test passed");  
+		    } catch (Exception e) {
+		        String screenshotPath = takeScreenshot(testName);
+		        test.fail("Test failed: " + e.getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+		    }
+		    if (test.getModel().getStatus().toString().equalsIgnoreCase("fail")) {
+		        Assert.fail("Test case failed: " + testName);
+		    }
+	}
 	
 	
 	

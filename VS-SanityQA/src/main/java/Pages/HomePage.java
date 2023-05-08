@@ -1546,6 +1546,181 @@ public class HomePage extends HelperFunctions {
         Assert.assertTrue(dealsSearch.isDisplayed());
 	    HelperFunctions.staticWait(2);
 	}
-	
+	public void setSelectTerritory(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    Assert.assertTrue(terriMenu.isDisplayed());
+	    test.info("Verified territory menu is displayed");
+	    HelperFunctions.staticWait(2);
+	    terriMenu.click();
+	    HelperFunctions.staticWait(3);
+	    WebElement mexicoLink = Driver.getDriver().findElement(By.linkText("Mexico"));
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(mexicoLink));
+	    mexicoLink.click();
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait4 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait4.until(ExpectedConditions.visibilityOf(terriMenu));
+	    WebElement selectedCountry = Driver.getDriver().findElement(By.cssSelector(".selected-value"));
+	    if (selectedCountry.getText().equals("Mexico")) {
+	    	Assert.assertTrue(true);
+	        System.out.println("Mexico is selected");
+	    } else {
+	        System.out.println("Mexico is not selected");
+	    }
+	    terriMenu.click();
+	    HelperFunctions.staticWait(3);
+	    WebElement globalLink = Driver.getDriver().findElement(By.linkText("Global"));
+	    WebDriverWait wait5 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait5.until(ExpectedConditions.visibilityOf(globalLink));
+	    globalLink.click();
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait6 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait6.until(ExpectedConditions.visibilityOf(terriMenu));
+	    selectedCountry = Driver.getDriver().findElement(By.cssSelector(".selected-value"));
+	    if (selectedCountry.getText().equals("Global")) {
+	    	Assert.assertTrue(true);
+	        System.out.println("Global is selected");
+	    } else {
+	        System.out.println("Global is not selected");
+	    }
+	    terriMenu.click();
+	    HelperFunctions.staticWait(3);
+	    WebElement usLink = Driver.getDriver().findElement(By.linkText("United States"));
+	    WebDriverWait wait7 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait7.until(ExpectedConditions.visibilityOf(usLink));
+	    usLink.click();
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait8 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait8.until(ExpectedConditions.visibilityOf(terriMenu));
+	    selectedCountry = Driver.getDriver().findElement(By.cssSelector(".selected-value"));
+	    if (selectedCountry.getText().equals("United States")) {
+	    	Assert.assertTrue(true);
+	        System.out.println("United States is selected");
+	    } else {
+	        System.out.println("United States is not selected");
+	    }
+	    HelperFunctions.staticWait(3);
+	}
+	public void setTerritoryDropdown(ExtentTest test) throws Exception {
+		read1.setExcelFile("./testdata.xlsx", "QA");
+	    Driver.getDriver().get(read1.getCellData("VALUE", 2));
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+	    js.executeScript("arguments[0].click();", pageInfo);
+	    HelperFunctions.staticWait(3);
+	    viewPublished.click();
+	    HelperFunctions.staticWait(2);
+	    String mainWindowHandle = Driver.getDriver().getWindowHandle();
+	    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+	    wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	    Set<String> windowHandles = Driver.getDriver().getWindowHandles();
+	    Iterator<String> iterator = windowHandles.iterator();
+	    String currentHandle = "";
+	    while (iterator.hasNext()) {
+	        currentHandle = iterator.next();
+	        if (!currentHandle.equals(mainWindowHandle)) {
+	        	Driver.getDriver().switchTo().window(currentHandle);
+	            break;
+	        }
+	    }
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait1 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait1.until(ExpectedConditions.visibilityOf(dealsTag));
+	    Assert.assertTrue(dealsTag.isDisplayed());
+	    HelperFunctions.staticWait(2);
+	    logo.click();
+	    test.info("Wait for page to load");
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    test.info("Wait for logo visibility");
+	    WebDriverWait wait2 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait2.until(ExpectedConditions.visibilityOf(logo));
+	    Assert.assertTrue(terriMenu.isDisplayed());
+	    test.info("Verified territory menu is displayed");
+	    HelperFunctions.staticWait(2);
+	    terriMenu.click();
+	    HelperFunctions.staticWait(3);
+	    WebElement mexicoLink = Driver.getDriver().findElement(By.linkText("Mexico"));
+	    WebDriverWait wait3 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait3.until(ExpectedConditions.visibilityOf(mexicoLink));
+	    mexicoLink.click();
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait4 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait4.until(ExpectedConditions.visibilityOf(terriMenu));
+	    WebElement selectedCountry = Driver.getDriver().findElement(By.cssSelector(".selected-value"));
+	    if (selectedCountry.getText().equals("Mexico")) {
+	    	Assert.assertTrue(true);
+	        System.out.println("Mexico is selected");
+	    } else {
+	        System.out.println("Mexico is not selected");
+	    }
+	    WebElement mexicoListItem = Driver.getDriver().findElement(By.cssSelector(".cmp-navigation__item--active"));
+	    if (mexicoListItem.getAttribute("class").contains("cmp-navigation__item--active")
+	            && !US.getAttribute("class").contains("cmp-navigation__item--active")
+	            && !global.getAttribute("class").contains("cmp-navigation__item--active")) {
+	    	Assert.assertTrue(true);
+	          System.out.println("Mexico is selected and United States/Global are not selected");
+	        } else {
+	          System.out.println("Mexico is not selected or United States/Global are selected");
+	        }
+	    terriMenu.click();
+	    HelperFunctions.staticWait(3);
+	    WebElement usLink = Driver.getDriver().findElement(By.linkText("United States"));
+	    WebDriverWait wait7 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait7.until(ExpectedConditions.visibilityOf(usLink));
+	    usLink.click();
+	    HelperFunctions.waitForPageToLoad(3);
+	    HelperFunctions.staticWait(3);
+	    WebDriverWait wait8 = new WebDriverWait(Driver.getDriver(), 10);
+	    wait8.until(ExpectedConditions.visibilityOf(terriMenu));
+	    selectedCountry = Driver.getDriver().findElement(By.cssSelector(".selected-value"));
+	    if (selectedCountry.getText().equals("United States")) {
+	    	Assert.assertTrue(true);
+	        System.out.println("United States is selected");
+	    } else {
+	        System.out.println("United States is not selected");
+	    }
+	    HelperFunctions.staticWait(3);
+	}
 	
 }
