@@ -1,4 +1,4 @@
-package com.pwc.productcentral;
+package com.pwc.valuestore;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -7,6 +7,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import com.pwc.valuestore.ConfigurationsReader;
+import com.pwc.valuestore.Driver;
 
 public class Driver {
     

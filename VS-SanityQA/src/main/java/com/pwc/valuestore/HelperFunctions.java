@@ -1,8 +1,11 @@
-package com.pwc.productcentral;
+package com.pwc.valuestore;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
+
+import com.pwc.valuestore.ConfigurationsReader;
+import com.pwc.valuestore.Driver;
 
 import java.io.File;
 import java.io.IOException;

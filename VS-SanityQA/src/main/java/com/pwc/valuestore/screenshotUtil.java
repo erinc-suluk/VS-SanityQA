@@ -1,4 +1,4 @@
-package com.pwc.productcentral;
+package com.pwc.valuestore;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +14,7 @@ import org.openqa.selenium.io.FileHandler;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
+import com.pwc.valuestore.Driver;
 
 public class screenshotUtil
 {

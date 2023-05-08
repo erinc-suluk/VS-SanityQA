@@ -9,9 +9,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import com.pwc.productcentral.Driver;
-import com.pwc.productcentral.HelperFunctions;
-import com.pwc.productcentral.ReadXLSdata;
+import com.pwc.valuestore.Driver;
+import com.pwc.valuestore.HelperFunctions;
+import com.pwc.valuestore.ReadXLSdata;
 
 
 public class AuthoringPage extends HelperFunctions {

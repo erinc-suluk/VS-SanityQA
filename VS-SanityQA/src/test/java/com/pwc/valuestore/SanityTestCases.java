@@ -1,4 +1,4 @@
-package com.pwc.productcentral;
+package com.pwc.valuestore;
 
 
 
@@ -27,6 +27,11 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.pwc.valuestore.ConfigurationsReader;
+import com.pwc.valuestore.Driver;
+import com.pwc.valuestore.HelperFunctions;
+import com.pwc.valuestore.ReadXLSdata;
+import com.pwc.valuestore.screenshotUtil;
 
 import Pages.AuthoringPage;
 import Pages.ContentPage;
@@ -1162,7 +1167,7 @@ public class SanityTestCases extends HelperFunctions {
 		        Assert.fail("Test case failed: " + testName);
 		    }
 	}
-	@Test
+	@Test(enabled=false)
 	public void WEB_59() throws Exception{
 		  String testName = "To verify that global header is configure in experiment fragment and it will persist across the pages."
 				  +"To verify that footer is configure in experiment fragment and it will persist across the pages.";

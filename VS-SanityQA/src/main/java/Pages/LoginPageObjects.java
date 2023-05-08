@@ -7,10 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-
-import com.pwc.productcentral.HelperFunctions;
-import com.pwc.productcentral.ReadXLSdata;
-import com.pwc.productcentral.Driver;
+import com.pwc.valuestore.Driver;
+import com.pwc.valuestore.HelperFunctions;
+import com.pwc.valuestore.ReadXLSdata;
 
 
 

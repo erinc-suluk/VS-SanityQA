@@ -1,4 +1,4 @@
-package com.pwc.productcentral;
+package com.pwc.valuestore;
 
 
 import java.io.IOException;
@@ -6,6 +6,8 @@ import java.io.IOException;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+
+import com.pwc.valuestore.screenshotUtil;
 
 public class Listeners extends screenshotUtil implements ITestListener {
 
